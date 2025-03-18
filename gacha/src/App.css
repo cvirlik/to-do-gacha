@@ -6,28 +6,28 @@
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .title {
-    font-family: "Mrs Sheppards";
-    font-size: 4em;
-    line-height: 1.2em;
-    font-style: normal;
-    text-shadow: 
-    -3px -3px 0 white,  
-     3px -3px 0 white,  
-    -3px  3px 0 white,  
-     3px  3px 0 white; 
-    color: #20393B;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+  font-family: "Mrs Sheppards";
+  font-size: 4em;
+  line-height: 1.2em;
+  font-style: normal;
+  text-shadow:
+    -3px -3px 0 white,
+    3px -3px 0 white,
+    -3px 3px 0 white,
+    3px 3px 0 white;
+  color: #20393b;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .secondary {
-    color: #12A8B3;
+  color: #12a8b3;
 }
 
 .card {
@@ -36,73 +36,75 @@
 }
 
 .banner {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    padding: 2em;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    gap: 16px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding: 2em;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  gap: 16px;
 }
 
-.description{
-    font-family: "Mochiy Pop One";
-    color: #000000;
-    text-shadow: 
-    -1.5px -1.5px 0 white,  
-    1.5px -1.5px 0 white,  
-    -1.5px  1.5px 0 white,  
-    1.5px  1.5px 0 white; 
-    font-size: 1em;
-    line-height: 1.5em;
-    font-style: normal;
-    text-align: left;
-    display: flex;
-    width: 100%;
-    gap: 16px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
+.description {
+  font-family: "Mochiy Pop One";
+  color: #000000;
+  text-shadow:
+    -1.5px -1.5px 0 white,
+    1.5px -1.5px 0 white,
+    -1.5px 1.5px 0 white,
+    1.5px 1.5px 0 white;
+  font-size: 1em;
+  line-height: 1.5em;
+  font-style: normal;
+  text-align: left;
+  display: flex;
+  width: 100%;
+  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 }
 
-.block{
-    color: #ffffff;
-    width: 40%;
-    display: inline-flex;
-    text-shadow: none;
-    gap: 16px;
-    padding: 8px;
-    background-color: #12A8B3;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+.block {
+  color: #ffffff;
+  width: 40%;
+  display: inline-flex;
+  text-shadow: none;
+  gap: 16px;
+  padding: 8px;
+  background-color: #12a8b3;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 button {
-    position: absolute;
-    bottom: 32px;
-    right: 64px;
-    border: none;
-    border-radius: 16px;
-    background-color: #12A8B3;
-    color: #ffffff;
-    font-family: "Mochiy Pop One";
-    padding: 16px 32px;
-    text-decoration: none;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
+  position: absolute;
+  bottom: 32px;
+  right: 64px;
+  border: none;
+  border-radius: 16px;
+  background-color: #12a8b3;
+  color: #ffffff;
+  font-family: "Mochiy Pop One";
+  padding: 16px 32px;
+  text-decoration: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
 }
 
 button:hover {
-    background-color: #0E8F99;
+  background-color: #0e8f99;
 }
 
 button:active {
-    background-color: #0B7780;
-    transform: scale(0.98);
+  background-color: #0b7780;
+  transform: scale(0.98);
 }
