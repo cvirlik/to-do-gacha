@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import Modal from "./Modal";
 
 interface TaskEvent {
   name: string;
@@ -74,56 +75,75 @@ const tasks: TaskEvent[] = [
 ];
 
 function App() {
-  const [selectedLegendary, setSelectedLegendary] = useState<TaskEvent | null>(
-    null,
-  );
-  const [selectedRare, setSelectedRare] = useState<TaskEvent[]>([]);
   const [pullCountLegendary, setPullCountLegendary] = useState(0);
   const [pullCountRare, setPullCountRare] = useState(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [pulledTask, setPulledTask] = useState<TaskEvent | null>(null); // State to hold the pulled task
+  const [pulledRarity, setPulledRarity] = useState<'normal' | 'rare' | 'legendary'>('normal');
+  const [modalVideo, setModalVideo] = useState<string | null>(null);
+  const [modalReady, setModalReady] = useState<boolean>(false);
+
+  function toggleModal() {
+    setShowModal(!showModal);
+    setModalReady(false);
+    setModalVideo(null);
+  }
 
   const pullTask = () => {
     let pulledLegendary: TaskEvent | null = null;
     let pulledRare: TaskEvent | null = null;
-    let pulledTask: TaskEvent | null = null;
+    let pulledNormal: TaskEvent | null = null;
+    let video: string = "";
 
-    const legendaryChance = pullCountLegendary === 89 ? 1 : 0.0001; // 90th pull guaranteed legendary
-    const rareChance = pullCountRare === 9 ? 1 : 0.05; // 10th pull guaranteed rare
-
-    // console.log(`Pull Count - Legendary: ${pullCountLegendary}, Rare: ${pullCountRare}`);
-    // console.log(`Legendary Chance: ${legendaryChance}, Rare Chance: ${rareChance}`);
-
-    if (Math.random() < legendaryChance) {
-      pulledLegendary =
-        selectedLegendary ??
-        legendaryChillTasks[
-          Math.floor(Math.random() * legendaryChillTasks.length)
-        ];
+    // Legendary logic
+    if (pullCountLegendary === 89) {
+      pulledLegendary = legendaryChillTasks[Math.floor(Math.random() * legendaryChillTasks.length)];
       setPullCountLegendary(0);
-      // console.log(`Pulled Legendary: ${pulledLegendary.name}`);
+      video = "/genshin-pulls/5 star, 1 pull.mp4";
+    } else if (Math.random() < 0.01) {
+      pulledLegendary = legendaryChillTasks[Math.floor(Math.random() * legendaryChillTasks.length)];
+      setPullCountLegendary(0);
+      video = "/genshin-pulls/5 star, 1 pull.mp4";
     } else {
       setPullCountLegendary((prev) => prev + 1);
     }
 
-    if (!pulledLegendary && Math.random() < rareChance) {
-      const pool = [
-        ...selectedRare,
-        ...rareChillTasks.filter((r) => !selectedRare.includes(r)),
-      ];
-      pulledRare = pool[Math.floor(Math.random() * pool.length)];
-      setPullCountRare(0);
-      // console.log(`Pulled Rare: ${pulledRare.name}`);
+    // Rare logic (only if not legendary)
+    if (!pulledLegendary) {
+      if (pullCountRare === 9) {
+        pulledRare = rareChillTasks[Math.floor(Math.random() * rareChillTasks.length)];
+        setPullCountRare(0);
+        video = "/genshin-pulls/4 star, 1 pull.mp4";
+      } else if (Math.random() < 0.05) {
+        pulledRare = rareChillTasks[Math.floor(Math.random() * rareChillTasks.length)];
+        setPullCountRare(0);
+        video = "/genshin-pulls/4 star, 1 pull.mp4";
+      } else {
+        setPullCountRare((prev) => prev + 1);
+      }
     } else {
-      setPullCountRare((prev) => prev + 1);
+      setPullCountRare(0);
     }
 
+    // Normal pull if neither legendary nor rare
     if (!pulledLegendary && !pulledRare) {
-      pulledTask = tasks[Math.floor(Math.random() * tasks.length)];
-      // console.log(`Pulled Normal Task: ${pulledTask.name}`);
+      pulledNormal = tasks[Math.floor(Math.random() * tasks.length)];
+      video = "/genshin-pulls/3 star pull.mp4";
     }
 
-    confirm(
-      `Pulled: ${pulledLegendary ? pulledLegendary.name : pulledRare ? pulledRare.name : pulledTask?.name}`,
-    );
+    // Set rarity based on what was pulled
+    if (pulledLegendary) {
+      setPulledRarity('legendary');
+    } else if (pulledRare) {
+      setPulledRarity('rare');
+    } else {
+      setPulledRarity('normal');
+    }
+
+    setPulledTask(pulledLegendary ?? pulledRare ?? pulledNormal);
+    setModalVideo(video);
+    setShowModal(true);
+    setModalReady(false);
   };
 
   return (
@@ -151,11 +171,28 @@ function App() {
               for more.
             </p>
           </div>
-          <button type="button" onClick={pullTask}>
+        <button className="btn" style={{position: "absolute", bottom: 32, right:64, background: "#ffffff", border: "2px solid #b3a47f"}} onClick={pullTask}>
             Pull Task x1
-          </button>
+        </button>
         </div>
       </div>
+
+      {/* Modal to display the pulled task */}
+      {showModal && (
+        <Modal
+          open={showModal}
+          onClose={toggleModal}
+          videoSrc={modalVideo ?? undefined}
+          onVideoEnd={() => setModalReady(true)}
+          rarity={pulledRarity}
+        >
+          {modalReady ? (
+            <p>{pulledTask ? pulledTask.name : "No task pulled."}</p>
+          ) : (
+            <></>
+          )}
+        </Modal>
+      )}
     </>
   );
 }
